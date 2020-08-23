@@ -16,29 +16,19 @@ const app = express();
 
 // db
 mongoose
-    .connect(process.env.MONGO_URI, {
+    .connect(process.env.DATABASE, {
         useNewUrlParser: true,
         useCreateIndex: true
     })
     .then(() => console.log('DB Connected'));
 
-var whitelist = ['https://react-flawina-frontend.herokuapp.com', 'https://react-flawina-api.herokuapp.com']
-var corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
-    }
-  }
-}
 
 // middlewares
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(expressValidator());
-app.use(cors(corsOptions));
+app.use(cors());
 
 // routes middleware
 app.use('/api', authRoutes);
